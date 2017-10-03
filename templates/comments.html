@@ -1,0 +1,115 @@
+{% extends 'base.html'%}
+{%block main_content%}
+                    <ul class="breadcrumbs">
+                        <li class="breadcrumbs__item">
+                            <a href="/main.html" class="breadcrumbs__link  active">Главная</a>
+                        </li>
+                        <li class="breadcrumbs__item">
+                            Отзывы
+                        </li>
+                    </ul>
+                    <h1 class="section__title">Отзывы</h1>
+                    <ul class="comments">
+                        {%for comment in object_list%}
+                        {% if comment.approved_comment%}
+                        <li class="comments__elem clearfix">
+                            <div class="comments__avatar">
+                                <img src="{{comment.img.url}}" alt="" class="comments__avatar-pic">
+                            </div>
+                            <div class="comments__desc">
+                                <div class="comments__date">
+                                    <p>{{comment.posted|date:'j.m.Y H:i'}}</p>
+                                </div>
+                                <div class="comments__header">
+                                    <p class="comments__name">{{comment.name}} {{comment.surname}}</p>
+                                </div>
+                                <div class="comments__text">
+                                    <p>
+                                        {{comment.text}}
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+{%endblock%}
+{%block pagination%}
+{% if is_paginated %}
+{% autoescape off %}
+            <div class="pagination clearfix">
+                <div class="pagination__pages">
+                    <p>Страница {{ page_obj.number }} из 7</p>
+                </div>
+                <a href="" class="pagination__previous"><i class="pagintaion__icon fa fa-angle-left" aria-hidden="true"></i></a>
+                <ul class="pagination__list">
+                    {% for num in page_obj.range_before %}
+                    <li class="pagintation__elem"><a href="?page={{ num }}"class="pagination__href">{{ num }}</a></li>
+                    {% endfor %}
+                    <li class="pagintation__elem pagintation__elem--active"><a href="" class="pagination__href pagintation__href--active">{{ page_obj.number }}</a></li>
+                    {% if page_obj.has_next %}
+                    {% for num in page_obj.range_after %}
+                        <li class="pagintation__elem">
+                            <a href="?page={{ num }}" class="pagination__href">{{ num }}</a>
+                        </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+                <a href="" class="pagination__next"><i class="pagintaion__icon fa fa-angle-right" aria-hidden="true"></i></a>
+            </div>
+{% endautoescape %}
+{% endif %}
+{%endblock%}
+{%block section_form%}
+    <section class="section-form">      
+        <div class="form">
+            <h2 class="form__title">Оставить отзыв</h2>
+            <form action="" class="form__tag" method="get" action="">
+                <div class="form__inputs">
+                    <div class="form__row">
+                        <div class="form__elem">
+                            <labale class="form__elem-title">Ваше имя</labale>
+                            <input type="text" class="form__input" placeholder="Андрей">
+                        </div>
+                        <div class="form__elem">
+                            <labale class="form__elem-title">Ссылка на профиль VK</labale>
+                            <input type="text" class="form__input" placeholder="vk.com/example">
+                        </div>
+                    </div>
+                    <div class="form__row">
+                        <div class="form__textarea">
+                            <labale class="form__elem-title">Текст отзыва</labale>
+                            <textarea name="" id="" cols="30" rows="10" class="form__big-text-input" placeholder="Мне понравилось"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form__buttons">
+                    <div class="form__radius">
+                        <div class="form__radius-header">
+                            <p>Отображать фото в отзыве?</p>
+                        </div>
+                        <div class="form__radius-content">
+                            <div class="form__radio"> 
+                                <label  class="form__radio-name">
+                                    <input type="radio" name = 'bool' class="form__input-radio"  value = 'True'>
+                                    <span class="form__radio-styled"></span>
+                                    <span class="form__radio-title">Да</span>
+                                </label>
+                            </div>
+                            <div class="form__radio"> 
+                                <label  class="form__radio-name">
+                                    <input type="radio" name = 'bool' class="form__input-radio"  value = 'True'>
+                                    <span class="form__radio-styled"></span>
+                                    <span class="form__radio-title">Нет</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <div class="form__send">
+                    <input type='submit' class="form__submit" value="Отправить">
+                </div> 
+            </form>
+        </div>   
+    </section>
+{%endblock%}

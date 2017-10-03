@@ -1,0 +1,4 @@
+
+.icon-feed__icon:before { content: '\e800'; } /* '' */
+.icon-main__icon:before { content: '\e801'; } /* '' */
+.icon-service__icon:before { content: '\e802'; } /* '' */
