@@ -427,6 +427,13 @@ address{
 .form{
 	padding-left: 68px;
 }
+.form__error{
+    color:red;
+    font-family: "Open Sans";
+    font-size: 18px;
+    margin-top: 12px;
+
+}
 .form__title{
 	display: inline-block;
     margin-top: 52px;

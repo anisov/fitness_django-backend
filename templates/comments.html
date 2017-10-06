@@ -64,22 +64,30 @@
     <section class="section-form">      
         <div class="form">
             <h2 class="form__title">Оставить отзыв</h2>
-            <form action="" class="form__tag" method="get" action="">
+            <form class="form__tag" method="post" action="">
+                {% csrf_token %}
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <div class="form__error">{{error}}</div>
+                    {%endfor%}
+                {%endfor%}
                 <div class="form__inputs">
                     <div class="form__row">
                         <div class="form__elem">
                             <labale class="form__elem-title">Ваше имя</labale>
-                            <input type="text" class="form__input" placeholder="Андрей">
+                            {{form.name}}
+
                         </div>
                         <div class="form__elem">
                             <labale class="form__elem-title">Ссылка на профиль VK</labale>
-                            <input type="text" class="form__input" placeholder="vk.com/example">
+                            {{form.vk}}
+
                         </div>
                     </div>
                     <div class="form__row">
                         <div class="form__textarea">
                             <labale class="form__elem-title">Текст отзыва</labale>
-                            <textarea name="" id="" cols="30" rows="10" class="form__big-text-input" placeholder="Мне понравилось"></textarea>
+                            {{form.text}}
                         </div>
                     </div>
                 </div>
@@ -89,22 +97,18 @@
                             <p>Отображать фото в отзыве?</p>
                         </div>
                         <div class="form__radius-content">
-                            <div class="form__radio"> 
-                                <label  class="form__radio-name">
-                                    <input type="radio" name = 'bool' class="form__input-radio"  value = 'True'>
-                                    <span class="form__radio-styled"></span>
-                                    <span class="form__radio-title">Да</span>
+                            {% for radio in form.img_on %}
+                            <div class="form__radio">
+                                <label class="form__radio-name">
+                                {{ radio.tag }}
+                                <span class="form__radio-styled"></span>
+                                    <span class="form__radio-title">{{ radio.choice_label }}</span>
                                 </label>
                             </div>
-                            <div class="form__radio"> 
-                                <label  class="form__radio-name">
-                                    <input type="radio" name = 'bool' class="form__input-radio"  value = 'True'>
-                                    <span class="form__radio-styled"></span>
-                                    <span class="form__radio-title">Нет</span>
-                                </label>
-                            </div>
+                            {% endfor %}
+                            {{form.honeypot}}
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <div class="form__send">
                     <input type='submit' class="form__submit" value="Отправить">

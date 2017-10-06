@@ -21,7 +21,7 @@ from comments.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^comments/', Comments_page.as_view())
+    url(r'^comments/', CommentsPage.as_view())
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
