@@ -1,5 +1,4 @@
 from django import forms
-
 from .models import CommentPost
 
 class CommentForm(forms.ModelForm):
@@ -16,6 +15,8 @@ class CommentForm(forms.ModelForm):
                               widget=forms.TextInput(
                                   attrs={'class': 'hidden','type':'hidden',
                                          'placeholder': 'Скрытое поле'}))
+    img = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form__img','placeholder':'Загрузить'}))
+
     class Meta:
         model = CommentPost
-        fields = ('name', 'vk', 'text','img_on','honeypot')
+        fields = ('name', 'vk', 'text','img_on','honeypot','img')

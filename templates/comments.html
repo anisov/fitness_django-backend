@@ -64,7 +64,7 @@
     <section class="section-form">      
         <div class="form">
             <h2 class="form__title">Оставить отзыв</h2>
-            <form class="form__tag" method="post" action="">
+            <form class="form__tag" method="post" action="" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% for field, errors in form.errors.items %}
                     {% for error in errors %}
@@ -76,12 +76,10 @@
                         <div class="form__elem">
                             <labale class="form__elem-title">Ваше имя</labale>
                             {{form.name}}
-
                         </div>
                         <div class="form__elem">
                             <labale class="form__elem-title">Ссылка на профиль VK</labale>
                             {{form.vk}}
-
                         </div>
                     </div>
                     <div class="form__row">
@@ -106,13 +104,14 @@
                                 </label>
                             </div>
                             {% endfor %}
-                            {{form.honeypot}}
                         </div>
                     </div>
                 </div>
                 <div class="form__send">
                     <input type='submit' class="form__submit" value="Отправить">
-                </div> 
+                    <label class="form__img-send">{{form.img}}</label>
+                    {{form.honeypot}}
+                </div>
             </form>
         </div>   
     </section>

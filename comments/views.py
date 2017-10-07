@@ -1,15 +1,9 @@
-from django.shortcuts import render
 from django.shortcuts import render_to_response, get_object_or_404, redirect,HttpResponseRedirect
-from comments.models import *
+from .models import *
 from .forms import *
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.core.mail import send_mail
 from .forms import CommentForm
 from django.core.paginator import Paginator, Page
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.base import TemplateView
 # Create your views here.
 class MyPage(Page):
     def range_before(self):
@@ -31,30 +25,35 @@ class MyPaginator(Paginator):
         return MyPage(*args, **kwargs)
 
 
-class CommentsPage(TemplateView):
-    #ListView need change
+class CommentsPage(ListView):
     model = CommentPost
-    queryset = CommentPost.objects.order_by('id')
     template_name = 'comments.html'
     paginator_class = MyPaginator
-    paginate_by = 1
+    paginate_by = 3
 
     def get(self, request, *args, **kwargs):
         self.form = CommentForm()
-        return super(CommentsPage, self).get(request, *args, **kwargs)
+        return super(__class__, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(CommentsPage, self).get_context_data(**kwargs)
+        context = super(__class__, self).get_context_data(**kwargs)
         context['form'] = self.form
-        context['object_list'] = self.queryset
         return context
 
+    def get_queryset(self):
+        qs = CommentPost.objects.order_by('-id')
+        for comment in qs:
+           if comment.img_on == False:
+               comment.img = '/img/comments/vector-smart-object.png'
+        return qs
+
     def post(self, request, **kwargs):
-        form = CommentForm(request.POST)
+        form = CommentForm(request.POST, request.FILES)
         if not request.POST.get('honeypot', ''):
             if form.is_valid():
-                print(3)
                 comment = form.save(commit=False)
+                file = form.cleaned_data['img']
+                print(file)
                 x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
                 if x_forwarded_for:
                     ip = x_forwarded_for.split(',')[-1].strip()
@@ -64,7 +63,8 @@ class CommentsPage(TemplateView):
                 comment.save()
                 return HttpResponseRedirect('/comments/')
             else:
-                context = super(CommentsPage, self).get_context_data(**kwargs)
+                self.object_list = self.get_queryset()
+                context =  super(__class__, self).get_context_data(**kwargs)
                 context['form'] = form
                 return self.render_to_response(context=context)
         else:
