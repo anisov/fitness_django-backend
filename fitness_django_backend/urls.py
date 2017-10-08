@@ -18,10 +18,13 @@ from django.conf.urls.static import static
 from django.conf.urls import  include, url
 from django.contrib import admin
 from comments.views import *
+from services.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^comments/', CommentsPage.as_view())
+    url(r'^comments/', CommentsPage.as_view(), name = 'comments'),
+    url(r'^services/$', Services.as_view(), name = 'services'),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

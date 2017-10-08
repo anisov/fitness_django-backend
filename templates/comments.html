@@ -18,7 +18,7 @@
                             </div>
                             <div class="comments__desc">
                                 <div class="comments__date">
-                                    <p>{{comment.posted|date:'j.m.Y H:i'}}</p>
+                                    <p>{{comment.pub_date|date:'j.m.Y H:i'}}</p>
                                 </div>
                                 <div class="comments__header">
                                     <p class="comments__name">{{comment.name}} {{comment.surname}}</p>
@@ -35,30 +35,7 @@
                     </ul>
 {%endblock%}
 {%block pagination%}
-{% if is_paginated %}
-{% autoescape off %}
-            <div class="pagination clearfix">
-                <div class="pagination__pages">
-                    <p>Страница {{ page_obj.number }} из 7</p>
-                </div>
-                <a href="" class="pagination__previous"><i class="pagintaion__icon fa fa-angle-left" aria-hidden="true"></i></a>
-                <ul class="pagination__list">
-                    {% for num in page_obj.range_before %}
-                    <li class="pagintation__elem"><a href="?page={{ num }}"class="pagination__href">{{ num }}</a></li>
-                    {% endfor %}
-                    <li class="pagintation__elem pagintation__elem--active"><a href="" class="pagination__href pagintation__href--active">{{ page_obj.number }}</a></li>
-                    {% if page_obj.has_next %}
-                    {% for num in page_obj.range_after %}
-                        <li class="pagintation__elem">
-                            <a href="?page={{ num }}" class="pagination__href">{{ num }}</a>
-                        </li>
-                    {% endfor %}
-                    {% endif %}
-                </ul>
-                <a href="" class="pagination__next"><i class="pagintaion__icon fa fa-angle-right" aria-hidden="true"></i></a>
-            </div>
-{% endautoescape %}
-{% endif %}
+{% include 'inc-pagination.html' %}
 {%endblock%}
 {%block section_form%}
     <section class="section-form">      

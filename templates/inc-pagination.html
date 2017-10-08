@@ -1,0 +1,32 @@
+{% if is_paginated %}
+{% autoescape off %}
+            <div class="pagination clearfix">
+                <div class="pagination__pages">
+                    <p>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</p>
+                </div>
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" class="pagination__previous"><i class="pagintaion__icon fa fa-angle-left" aria-hidden="true"></i></a>
+                {%else%}
+                    <a href="#" class="pagination__previous"><i class="pagintaion__icon fa fa-angle-left" aria-hidden="true"></i></a>
+                {% endif %}
+                <ul class="pagination__list">
+                    {% for num in page_obj.range_before %}
+                    <li class="pagintation__elem"><a href="?page={{ num }}"class="pagination__href">{{ num }}</a></li>
+                    {% endfor %}
+                    <li class="pagintation__elem pagintation__elem--active"><a href="" class="pagination__href pagintation__href--active">{{ page_obj.number }}</a></li>
+                    {% if page_obj.has_next %}
+                    {% for num in page_obj.range_after %}
+                        <li class="pagintation__elem">
+                            <a href="?page={{ num }}" class="pagination__href">{{ num }}</a>
+                        </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="pagination__next"><i class="pagintaion__icon fa fa-angle-right" aria-hidden="true"></i></a>
+                {%else%}
+                    <a href="#" class="pagination__next"><i class="pagintaion__icon fa fa-angle-right" aria-hidden="true"></i></a>
+                {% endif %}
+            </div>
+{% endautoescape %}
+{% endif %}
